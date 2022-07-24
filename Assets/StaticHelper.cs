@@ -15,4 +15,26 @@ public class StaticHelper : MonoBehaviour
         }
 
     }
+
+    public void onMenu(InputAction.CallbackContext context)
+    {
+        if (context.started)
+        {
+            ToggleMenuState();
+            
+        }
+    }
+
+    public void ToggleMenuState()
+    {
+        if(Static.showingESC == Static.enumMenuState.main)
+        {
+            Static.showingESC = Static.enumMenuState.hidden;
+        }
+        else
+        {
+            Static.showingESC = Static.enumMenuState.main;
+        }
+        Debug.Log($"Switching Esc Menu State: {Static.showingESC}".Bold());
+    }
 }
