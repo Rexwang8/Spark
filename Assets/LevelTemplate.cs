@@ -8,6 +8,12 @@ using Sirenix.OdinInspector;
 public class LevelTemplate : ScriptableObject
 {
     public int level;
-    [PreviewField(30, ObjectFieldAlignment.Center)]
+    [PreviewField(60, ObjectFieldAlignment.Center)]
     public Sprite image;
+    public Object scene;
+
+    public Vector2 BoundingXY1;
+    public Vector2 BoundingXY2;
+    public Vector2 startingPosition;
+    public bool lockCamera;
 }

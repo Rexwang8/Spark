@@ -17,6 +17,11 @@ public class MainController : MonoBehaviour
     GameObject levelSelectWrapper;
     GameObject EscMenuWrapper;
 
+    
+    public List<GameObject> allLevels = new List<GameObject>();
+    private int amountOfLevels;
+    public LevelTemplate CurrentlySelectedLevel; 
+
 
     public GameObject startText;
 
@@ -45,9 +50,18 @@ public class MainController : MonoBehaviour
         mainmenuObject = settingsChild.transform.GetChild(2).gameObject;
 
 
+        //Ini
         ContinueObject.GetComponent<TMP_Text>().text = "Continue Game".Bold();
         EscMenuWrapper.SetActive(true);
         levelSelectWrapper.SetActive(true);
+        amountOfLevels = levelSelectChild.transform.childCount - 1;
+        for (int i = 1; i < amountOfLevels + 1; i++)
+        {
+            allLevels.Add(levelSelectChild.transform.GetChild(i).gameObject);
+        }
+        Static.currentSelectedlevel = 1;
+        CurrentlySelectedLevel = allLevels[0].GetComponent<LevelUi>().level;
+        allLevels[Static.currentSelectedlevel - 1].transform.GetChild(1).gameObject.GetComponent<TMP_Text>().text = $"Level {CurrentlySelectedLevel.level}".Bold();
     }
     public void OnEnter(InputAction.CallbackContext context)
     {
@@ -69,7 +83,12 @@ public class MainController : MonoBehaviour
                 //Debug.Log("Trying scene start");
                 // SceneManager.LoadScene(nextScene.name);
                 Static.currentMainState = Static.enumMainState.levelselect;
-                
+            }
+            else if(Static.currentMainState == Static.enumMainState.levelselect)
+            {
+                //start selected level
+                Debug.Log($"Start this level: {Static.currentSelectedlevel}");
+                SceneManager.LoadScene(CurrentlySelectedLevel.scene.name);
             }
             
         }
@@ -139,12 +158,64 @@ public class MainController : MonoBehaviour
             }
         }
 
-
         if (Static.debugMode)
         {
             Debug.Log(currentdir);
         }
         DoNavigateEscapeMenu(currentdir);
+        DoNavigateLevelSelect(currentdir);
+    }
+
+    private void DoNavigateLevelSelect(alldir dir)
+    {
+        //only work when esc menu is hidden and on level select menu
+        if (Static.showingESC != Static.enumMenuState.hidden || Static.currentMainState != Static.enumMainState.levelselect)
+        {
+            return;
+        }
+        int prevlevel = Static.currentSelectedlevel;
+
+        //navigate
+        if (dir == alldir.left)
+        {
+            Static.currentSelectedlevel -= 1;
+            if (Static.currentSelectedlevel <= 0 )
+            {
+                Static.currentSelectedlevel = 1;
+            }
+        }
+        else
+        {
+            Static.currentSelectedlevel += 1;
+            if (Static.currentSelectedlevel > allLevels.Count)
+            {
+                Static.currentSelectedlevel = allLevels.Count;
+            }
+
+            //LOGIC CHECK LOCKED LEVELS HERE -- TODO
+        }
+
+        //Select level
+        if(Static.currentSelectedlevel == prevlevel)
+        {
+            return;
+        }
+        CurrentlySelectedLevel = allLevels[Static.currentSelectedlevel - 1].GetComponent<LevelUi>().level;
+        //MOVE UI TO MATCH LEVEL
+        
+        //Highlight/bold selected level
+        if(Static.currentSelectedlevel > 1)
+        {
+            allLevels[Static.currentSelectedlevel - 2].transform.GetChild(1).gameObject.GetComponent<TMP_Text>().text = $"Level {allLevels[Static.currentSelectedlevel - 2].GetComponent<LevelUi>().level.level}";
+        }
+        if (Static.currentSelectedlevel < allLevels.Count)
+        {
+            allLevels[Static.currentSelectedlevel].transform.GetChild(1).gameObject.GetComponent<TMP_Text>().text = $"Level {allLevels[Static.currentSelectedlevel].GetComponent<LevelUi>().level.level}";
+        }
+        
+        allLevels[Static.currentSelectedlevel - 1].transform.GetChild(1).gameObject.GetComponent<TMP_Text>().text = $"Level {CurrentlySelectedLevel.level}".Bold();
+        
+
     }
 
     private void DoNavigateEscapeMenu(alldir dir)

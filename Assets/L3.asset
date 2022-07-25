@@ -14,3 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   level: 3
   image: {fileID: 21300000, guid: 25534d7e0c9de5646aee54d576a28388, type: 3}
+  scene: {fileID: 102900000, guid: 09b2f222e2e35344682403f01a87dca8, type: 3}
+  BoundingXY1: {x: 0, y: 0}
+  BoundingXY2: {x: 0, y: 0}
+  startingPosition: {x: 0, y: 0}

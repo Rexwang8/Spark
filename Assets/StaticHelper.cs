@@ -6,6 +6,11 @@ using UnityEngine.InputSystem;
 
 public class StaticHelper : MonoBehaviour
 {
+    public LevelTemplate startLevelTemplate;
+    private void Awake()
+    {
+        Static.levelTemplate = startLevelTemplate;
+    }
     public void ToggleDebugMode(InputAction.CallbackContext context)
     {
         if (context.started)
