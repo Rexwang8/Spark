@@ -10,6 +10,7 @@ public class LevelLoader : MonoBehaviour
     public GameObject CMBounding;
     public GameObject CM;
     public GameObject player;
+    public GameObject respawner;
 
     public float shrink = 1f;
 
@@ -38,7 +39,8 @@ public class LevelLoader : MonoBehaviour
         {
             CM.SetActive(false);
         }
-        Debug.Log(loadedLevelTemplate.lockCamera);
+
+       // player.GetComponent<Player>().currentLevelData = loadedLevelTemplate;
 
     }
     void Start()

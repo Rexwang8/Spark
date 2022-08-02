@@ -74,7 +74,7 @@ public class MainController : MonoBehaviour
 
     private void TrySubmitButton()
     {
-        
+        Debug.Log("ESC");
         if(Static.showingESC == Static.enumMenuState.hidden)
         {
             if (Static.currentMainState == Static.enumMainState.start)
@@ -186,6 +186,7 @@ public class MainController : MonoBehaviour
         }
         else
         {
+
             Static.currentSelectedlevel += 1;
             if (Static.currentSelectedlevel > allLevels.Count)
             {
@@ -193,6 +194,10 @@ public class MainController : MonoBehaviour
             }
 
             //LOGIC CHECK LOCKED LEVELS HERE -- TODO
+            if(Static.currentSelectedlevel > Static.maxBeatenLevel)
+            {
+                Static.currentSelectedlevel = Static.maxBeatenLevel;
+            }
         }
 
         //Select level

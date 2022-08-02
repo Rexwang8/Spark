@@ -39,11 +39,17 @@ public class Player : MonoBehaviour
 
     private Rigidbody2D rb;
 
+    public GameObject SparkObj;
+    private Vector2 lastsparkloc;
+    public GameObject statichelper;
+
     private void Awake()
     {
         rb = GetComponent<Rigidbody2D>();
         _basegravity = rb.gravityScale;
         debugjumps.gameObject.SetActive(Static.debugMode);
+        EventManager.StartListening("KILL", onKilled);
+        EventManager.StartListening("SPARK", Spark);
     }
 
     private void OnCollisionEnter2D(Collision2D collision)
@@ -78,13 +84,13 @@ public class Player : MonoBehaviour
     {
         if(isGrounded)
         {
-            return $"Jumps: Grounded(2)\n Sliding: {slidedir}";
+            return $"Jumps: Grounded(2)\n Sliding: {slidedir}\n Level(current/max): {Static.currentSelectedlevel} {Static.maxBeatenLevel}";
         }
         else if (!usedDoubleJump)
         {
-            return $"Jumps: Air(1)\n Sliding: {slidedir}";
+            return $"Jumps: Air(1)\n Sliding: {slidedir}\n Level(current/max): {Static.currentSelectedlevel} {Static.maxBeatenLevel}";
         }
-        return $"Jumps: Air(0)\n Sliding: {slidedir}";
+        return $"Jumps: Air(0)\n Sliding: {slidedir}\n Level(current/max): {Static.currentSelectedlevel} {Static.maxBeatenLevel}";
     }
 
     private void OnCollisionExit2D(Collision2D collision)
@@ -153,11 +159,20 @@ public class Player : MonoBehaviour
 
     public void OnJump(InputAction.CallbackContext context)
     {
-        if(context.started)
+        if(context.started && !Static.gamePaused)
         {
             Jump();
         }
         
+    }
+
+    public void OnSpark(InputAction.CallbackContext context)
+    {
+        if (context.started && !Static.gamePaused)
+        {
+            onKilled();
+        }
+
     }
 
     public void OnDebug(InputAction.CallbackContext context)
@@ -207,4 +222,31 @@ public class Player : MonoBehaviour
             Debug.DrawRay(transform.position, Vector2.up, Color.green, 0.75f, false);
         }
     }
+
+
+    private void onKilled()
+    {
+        lastsparkloc = transform.position;
+        if(lastsparkloc.y < -5)
+        {
+            lastsparkloc.y += 4;
+        }
+        transform.position = Static.levelTemplate.startingPosition;
+        EventManager.EmitEvent("RESPAWN");
+        Spark();
+    }
+
+    private void Spark()
+    {
+        GameObject sp = Instantiate(SparkObj, new Vector2(lastsparkloc.x, lastsparkloc.y), transform.rotation);
+        sp.GetComponent<SparkCT>().sparkid = Static.sparkid;
+        Static.sparkid += 1;
+        
+        statichelper.GetComponent<StaticHelper>().checkSparks();
+        Debug.Log("SPARK");   
+    }
+
+
+
+
 }
