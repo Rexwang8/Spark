@@ -9,6 +9,7 @@ public class LevelUi : MonoBehaviour
     public LevelTemplate level;
     GameObject lvtxt;
     GameObject lvimg;
+    public Sprite lockedimg;
 
     private void Awake()
     {
@@ -16,6 +17,10 @@ public class LevelUi : MonoBehaviour
         lvtxt = transform.GetChild(1).gameObject;
 
         lvimg.GetComponent<Image>().sprite = level.image;
+        if(level.level > Static.maxBeatenLevel + 1)
+        {
+            lvimg.GetComponent<Image>().sprite = lockedimg;
+        }
         lvtxt.GetComponent<TMP_Text>().text = $"Level {level.level}";
 
     }

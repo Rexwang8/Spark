@@ -815,6 +815,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   level: {fileID: 11400000, guid: d09888351d316e24dae5f8393bb36ec0, type: 2}
+  lockedimg: {fileID: 21300000, guid: a11d716ada219fe4683e6147d610043e, type: 3}
 --- !u!1 &1488883210975686287
 GameObject:
   m_ObjectHideFlags: 0
@@ -876,6 +877,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   level: {fileID: 11400000, guid: 2e71670893621534fb64c10d03486f89, type: 2}
+  lockedimg: {fileID: 21300000, guid: a11d716ada219fe4683e6147d610043e, type: 3}
 --- !u!1 &1488883211041753219
 GameObject:
   m_ObjectHideFlags: 0
@@ -1532,6 +1534,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   level: {fileID: 11400000, guid: ef211f8b7cb22d94f9b371b4a4550b93, type: 2}
+  lockedimg: {fileID: 21300000, guid: a11d716ada219fe4683e6147d610043e, type: 3}
 --- !u!1 &1488883211624812247
 GameObject:
   m_ObjectHideFlags: 0

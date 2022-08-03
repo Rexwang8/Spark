@@ -10,7 +10,11 @@ public class StaticHelper : MonoBehaviour
     public LevelTemplate startLevelTemplate;
     private void Awake()
     {
-        Static.levelTemplate = startLevelTemplate;
+        if(Static.levelTemplate == null)
+        {
+            Static.levelTemplate = startLevelTemplate;
+        }
+        
     }
     public void ToggleDebugMode(InputAction.CallbackContext context)
     {

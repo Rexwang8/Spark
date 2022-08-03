@@ -16,7 +16,7 @@ public static class Static
     public enum ESCMenuMainState { cont, main, exit}
     public static ESCMenuMainState mainESC = ESCMenuMainState.cont;
 
-    public static int maxBeatenLevel = 1;
+    public static int maxBeatenLevel = 0;
     public static int currentSelectedlevel = 0;
     public static LevelTemplate levelTemplate;
     public static bool gamePaused = false;

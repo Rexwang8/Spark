@@ -87,7 +87,8 @@ public class MainController : MonoBehaviour
             else if(Static.currentMainState == Static.enumMainState.levelselect)
             {
                 //start selected level
-                Debug.Log($"Start this level: {Static.currentSelectedlevel}");
+                Debug.Log($"Start this level: {CurrentlySelectedLevel.level}");
+                Static.levelTemplate = CurrentlySelectedLevel;
                 SceneManager.LoadScene(CurrentlySelectedLevel.scene.name);
             }
             
@@ -193,11 +194,13 @@ public class MainController : MonoBehaviour
                 Static.currentSelectedlevel = allLevels.Count;
             }
 
+            
             //LOGIC CHECK LOCKED LEVELS HERE -- TODO
-            if(Static.currentSelectedlevel > Static.maxBeatenLevel)
+            if(Static.currentSelectedlevel > Static.maxBeatenLevel + 1)
             {
                 Static.currentSelectedlevel = Static.maxBeatenLevel;
             }
+            Debug.Log("clevl" + Static.currentSelectedlevel + " maxlevl " + Static.maxBeatenLevel);
         }
 
         //Select level
