@@ -8,7 +8,7 @@ public class ExitDoor : MonoBehaviour
 {
 
     private GameObject player;
-    public Object MainMenuLevel;
+    public string MainMenuLevel;
     // Start is called before the first frame update
     void Awake()
     {
@@ -21,9 +21,13 @@ public class ExitDoor : MonoBehaviour
         if(collision.gameObject.CompareTag("Player"))
         {
             EventManager.EmitEvent("FINISHLEVEL");
-            Static.maxBeatenLevel = Static.levelTemplate.level;
+            if(Static.maxBeatenLevel < Static.levelTemplate.level)
+            {
+                Static.maxBeatenLevel = Static.levelTemplate.level;
+            }
+            
             Debug.Log($"Start this level: {Static.currentSelectedlevel}");
-            SceneManager.LoadScene(MainMenuLevel.name);
+            SceneManager.LoadScene(MainMenuLevel);
             Debug.Log("EMIT FINISHLEVEL" + Static.levelTemplate.level);
         }
     }

@@ -7,6 +7,8 @@ using TMPro;
 public class LevelUi : MonoBehaviour
 {
     public LevelTemplate level;
+    public LevelPageTemplate levelpage;
+    public int levelIndex;
     GameObject lvtxt;
     GameObject lvimg;
     public Sprite lockedimg;
@@ -15,7 +17,7 @@ public class LevelUi : MonoBehaviour
     {
         lvimg = transform.GetChild(0).gameObject;
         lvtxt = transform.GetChild(1).gameObject;
-
+        level = levelpage.levels[levelIndex];
         lvimg.GetComponent<Image>().sprite = level.image;
         if(level.level > Static.maxBeatenLevel + 1)
         {

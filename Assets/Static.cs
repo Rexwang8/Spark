@@ -17,7 +17,8 @@ public static class Static
     public static ESCMenuMainState mainESC = ESCMenuMainState.cont;
 
     public static int maxBeatenLevel = 0;
-    public static int currentSelectedlevel = 0;
+    public static int lastLevelAccessed = 0;
+    public static int currentSelectedlevel;
     public static LevelTemplate levelTemplate;
     public static bool gamePaused = false;
     public static int sparkid = 0;

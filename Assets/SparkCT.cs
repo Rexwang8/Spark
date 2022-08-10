@@ -8,7 +8,7 @@ public class SparkCT : MonoBehaviour
 
     public void checkSparks()
     {
-        Debug.Log(sparkid + "  " + Static.sparkid);
+        //Debug.Log(sparkid + "  " + Static.sparkid);
         
         if(sparkid <= Static.sparkid - Static.MaxSparks)
         {

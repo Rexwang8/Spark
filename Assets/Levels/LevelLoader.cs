@@ -23,8 +23,8 @@ public class LevelLoader : MonoBehaviour
         allpts[1] = new Vector2(loadedLevelTemplate.BoundingXY1.x + shrink, loadedLevelTemplate.BoundingXY2.y + shrink);
         allpts[2] = new Vector2(loadedLevelTemplate.BoundingXY2.x - shrink, loadedLevelTemplate.BoundingXY2.y + shrink);
         allpts[3] = new Vector2(loadedLevelTemplate.BoundingXY2.x - shrink, loadedLevelTemplate.BoundingXY1.y - shrink);
-
-        
+        player.transform.position = loadedLevelTemplate.startingPosition;
+        Debug.Log(loadedLevelTemplate.startingPosition);
 
         CMBounding.GetComponent<PolygonCollider2D>().pathCount = 1;
         CMBounding.GetComponent<PolygonCollider2D>().enabled = false;
@@ -33,13 +33,13 @@ public class LevelLoader : MonoBehaviour
 
         if(loadedLevelTemplate.lockCamera)
         {
-            CM.SetActive(true);
+            CM.SetActive(false);
         }
         else
         {
-            CM.SetActive(false);
+            CM.SetActive(true);
         }
-
+        GameObject terrain = Instantiate(loadedLevelTemplate.levelTerrain, transform);
        // player.GetComponent<Player>().currentLevelData = loadedLevelTemplate;
 
     }

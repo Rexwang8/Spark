@@ -232,6 +232,7 @@ public class Player : MonoBehaviour
             lastsparkloc.y += 4;
         }
         transform.position = Static.levelTemplate.startingPosition;
+        Debug.Log(Static.levelTemplate.startingPosition);
         EventManager.EmitEvent("RESPAWN");
         Spark();
     }

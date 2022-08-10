@@ -13,7 +13,7 @@ public class ESCController : MonoBehaviour
     GameObject ContinueObject;
     GameObject ExitObject;
     GameObject EscMenuWrapper;
-    public Object startScene;
+    public string startScene;
     public GameObject statichelper;
 
     private Vector2 inputDirection;
@@ -61,7 +61,7 @@ public class ESCController : MonoBehaviour
                 Debug.Log("Return to level");
                 Static.showingESC = Static.enumMenuState.hidden;
                 statichelper.GetComponent<StaticHelper>().destroySparks();
-                SceneManager.LoadScene(startScene.name);
+                SceneManager.LoadScene(startScene);
             }
             else if (Static.mainESC == Static.ESCMenuMainState.cont)
             {

@@ -13,6 +13,7 @@ public class StaticHelper : MonoBehaviour
         if(Static.levelTemplate == null)
         {
             Static.levelTemplate = startLevelTemplate;
+            Static.lastLevelAccessed = 1;
         }
         
     }

@@ -13,19 +13,11 @@ public class MainController : MonoBehaviour
     GameObject mainmenuObject;
     GameObject ContinueObject;
     GameObject ExitObject;
-    GameObject levelSelectChild;
-    GameObject levelSelectWrapper;
     GameObject EscMenuWrapper;
 
-    
-    public List<GameObject> allLevels = new List<GameObject>();
-    private int amountOfLevels;
-    public LevelTemplate CurrentlySelectedLevel; 
 
 
     public GameObject startText;
-
-    public Object nextScene;
 
     private Vector2 inputDirection;
     private bool currentInput = false;
@@ -38,12 +30,12 @@ public class MainController : MonoBehaviour
     {
         //-1 level
         EscMenuWrapper = transform.GetChild(1).gameObject;
-        levelSelectWrapper = transform.GetChild(0).gameObject;
+
         
         //-2 level
         dimChild = EscMenuWrapper.transform.GetChild(0).gameObject;
         settingsChild = EscMenuWrapper.transform.GetChild(1).gameObject;
-        levelSelectChild = levelSelectWrapper.transform.GetChild(0).gameObject;
+
         //-3 level
         ContinueObject = settingsChild.transform.GetChild(0).gameObject;
         ExitObject = settingsChild.transform.GetChild(1).gameObject;
@@ -53,70 +45,10 @@ public class MainController : MonoBehaviour
         //Ini
         ContinueObject.GetComponent<TMP_Text>().text = "Continue Game".Bold();
         EscMenuWrapper.SetActive(true);
-        levelSelectWrapper.SetActive(true);
-        amountOfLevels = levelSelectChild.transform.childCount - 1;
-        for (int i = 1; i < amountOfLevels + 1; i++)
-        {
-            allLevels.Add(levelSelectChild.transform.GetChild(i).gameObject);
-        }
-        Static.currentSelectedlevel = 1;
-        CurrentlySelectedLevel = allLevels[0].GetComponent<LevelUi>().level;
-        allLevels[Static.currentSelectedlevel - 1].transform.GetChild(1).gameObject.GetComponent<TMP_Text>().text = $"Level {CurrentlySelectedLevel.level}".Bold();
-    }
-    public void OnEnter(InputAction.CallbackContext context)
-    {
-        if (context.started)
-        {
-            TrySubmitButton();
-        }
 
     }
-
-    private void TrySubmitButton()
-    {
-        Debug.Log("ESC");
-        if(Static.showingESC == Static.enumMenuState.hidden)
-        {
-            if (Static.currentMainState == Static.enumMainState.start)
-            {
-                //try to start game scene
-                //Debug.Log("Trying scene start");
-                // SceneManager.LoadScene(nextScene.name);
-                Static.currentMainState = Static.enumMainState.levelselect;
-            }
-            else if(Static.currentMainState == Static.enumMainState.levelselect)
-            {
-                //start selected level
-                Debug.Log($"Start this level: {CurrentlySelectedLevel.level}");
-                Static.levelTemplate = CurrentlySelectedLevel;
-                SceneManager.LoadScene(CurrentlySelectedLevel.scene.name);
-            }
-            
-        }
-        else if(Static.showingESC == Static.enumMenuState.main)
-        {
-            //select either continue or exit game
-            
-            if(Static.mainESC == Static.ESCMenuMainState.exit)
-            {
-                Debug.Log("Application Quit");
-                Application.Quit();
-            }
-            else if(Static.mainESC == Static.ESCMenuMainState.cont)
-            {
-                //Continue, unpause
-                Debug.Log("Application Unpause");
-                Static.showingESC = Static.enumMenuState.hidden;
-            }
-            else
-            {
-                Debug.Log("Application Unpause and Main");
-                Static.showingESC = Static.enumMenuState.hidden;
-                Static.currentMainState = Static.enumMainState.start;
-            }
-        }
-        
-    }
+   
+   
 
     void CalculateMovementInput()
     {
@@ -164,67 +96,10 @@ public class MainController : MonoBehaviour
             Debug.Log(currentdir);
         }
         DoNavigateEscapeMenu(currentdir);
-        DoNavigateLevelSelect(currentdir);
-    }
-
-    private void DoNavigateLevelSelect(alldir dir)
-    {
-        //only work when esc menu is hidden and on level select menu
-        if (Static.showingESC != Static.enumMenuState.hidden || Static.currentMainState != Static.enumMainState.levelselect)
-        {
-            return;
-        }
-        int prevlevel = Static.currentSelectedlevel;
-
-        //navigate
-        if (dir == alldir.left)
-        {
-            Static.currentSelectedlevel -= 1;
-            if (Static.currentSelectedlevel <= 0 )
-            {
-                Static.currentSelectedlevel = 1;
-            }
-        }
-        else
-        {
-
-            Static.currentSelectedlevel += 1;
-            if (Static.currentSelectedlevel > allLevels.Count)
-            {
-                Static.currentSelectedlevel = allLevels.Count;
-            }
-
-            
-            //LOGIC CHECK LOCKED LEVELS HERE -- TODO
-            if(Static.currentSelectedlevel > Static.maxBeatenLevel + 1)
-            {
-                Static.currentSelectedlevel = Static.maxBeatenLevel;
-            }
-            Debug.Log("clevl" + Static.currentSelectedlevel + " maxlevl " + Static.maxBeatenLevel);
-        }
-
-        //Select level
-        if(Static.currentSelectedlevel == prevlevel)
-        {
-            return;
-        }
-        CurrentlySelectedLevel = allLevels[Static.currentSelectedlevel - 1].GetComponent<LevelUi>().level;
-        //MOVE UI TO MATCH LEVEL
-        
-        //Highlight/bold selected level
-        if(Static.currentSelectedlevel > 1)
-        {
-            allLevels[Static.currentSelectedlevel - 2].transform.GetChild(1).gameObject.GetComponent<TMP_Text>().text = $"Level {allLevels[Static.currentSelectedlevel - 2].GetComponent<LevelUi>().level.level}";
-        }
-        if (Static.currentSelectedlevel < allLevels.Count)
-        {
-            allLevels[Static.currentSelectedlevel].transform.GetChild(1).gameObject.GetComponent<TMP_Text>().text = $"Level {allLevels[Static.currentSelectedlevel].GetComponent<LevelUi>().level.level}";
-        }
-        
-        allLevels[Static.currentSelectedlevel - 1].transform.GetChild(1).gameObject.GetComponent<TMP_Text>().text = $"Level {CurrentlySelectedLevel.level}".Bold();
-        
 
     }
+
+    
 
     private void DoNavigateEscapeMenu(alldir dir)
     {
@@ -308,16 +183,61 @@ public class MainController : MonoBehaviour
             settingsChild.SetActive(true);
             dimChild.SetActive(true);
         }
+    }
 
-        if(Static.currentMainState == Static.enumMainState.levelselect)
+    public void OnEnter(InputAction.CallbackContext context)
+    {
+        if (context.started)
         {
-            startText.SetActive(false);
-            levelSelectChild.SetActive(true);
+            TrySubmitButton();
         }
-        else
+
+    }
+
+    private void TrySubmitButton()
+    {
+        if (Static.showingESC == Static.enumMenuState.hidden)
         {
-            startText.SetActive(true);
-            levelSelectChild.SetActive(false);
+            if (Static.currentMainState == Static.enumMainState.start)
+            {
+                //try to start game scene
+
+                Static.currentMainState = Static.enumMainState.levelselect;
+            }
+            else if (Static.currentMainState == Static.enumMainState.levelselect)
+            {
+                //start selected level
+                Debug.Log($"Start this level: { Static.levelTemplate.level}");
+
+                Static.lastLevelAccessed = Static.levelTemplate.level;
+
+
+                SceneManager.LoadScene(Static.levelTemplate.scenename);
+            }
+
         }
+        else if (Static.showingESC == Static.enumMenuState.main)
+        {
+            //select either continue or exit game
+
+            if (Static.mainESC == Static.ESCMenuMainState.exit)
+            {
+                Debug.Log("Application Quit");
+                Application.Quit();
+            }
+            else if (Static.mainESC == Static.ESCMenuMainState.cont)
+            {
+                //Continue, unpause
+                Debug.Log("Application Unpause");
+                Static.showingESC = Static.enumMenuState.hidden;
+            }
+            else
+            {
+                Debug.Log("Application Unpause and Main");
+                Static.showingESC = Static.enumMenuState.hidden;
+                Static.currentMainState = Static.enumMainState.start;
+            }
+        }
+
     }
 }
