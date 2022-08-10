@@ -22,6 +22,15 @@ public class NavigateLevelSelect : MonoBehaviour
     GameObject levelSelectChild;
     GameObject levelSelectWrapper;
     public GameObject startText;
+    public GameObject sparkimg;
+    public GameObject startspark;
+
+    private void toggleStartProps(bool toggle)
+    {
+        startText.SetActive(toggle);
+        sparkimg.SetActive(toggle);
+        startspark.SetActive(toggle);
+    }
 
     private void Awake()
     {
@@ -44,6 +53,7 @@ public class NavigateLevelSelect : MonoBehaviour
         }
 
         Static.currentSelectedlevel = Static.lastLevelAccessed;
+        CalcLevelIdxDown();
         calcTemplateFromIdx();
         boldLevelTxt();
     }
@@ -173,12 +183,13 @@ public class NavigateLevelSelect : MonoBehaviour
 
         if (Static.currentMainState == Static.enumMainState.levelselect)
         {
-            startText.SetActive(false);
+            toggleStartProps(false);
             levelSelectChild.SetActive(true);
         }
         else
         {
             startText.SetActive(true);
+            toggleStartProps(true);
             levelSelectChild.SetActive(false);
         }
     }

@@ -39,6 +39,7 @@ public class ESCController : MonoBehaviour
 
         //Ini
         ContinueObject.GetComponent<TMP_Text>().text = "Continue Game".Bold();
+        FlameObject.transform.localPosition = new Vector3(-180, 20, 0);
         EscMenuWrapper.SetActive(true);
     }
 
@@ -150,6 +151,7 @@ public class ESCController : MonoBehaviour
                 //Static.mainESC = Static.ESCMenuMainState.exit;
                 ExitObject.GetComponent<TMP_Text>().text = "Exit Game".Bold();
                 ContinueObject.GetComponent<TMP_Text>().text = "Continue Game";
+                FlameObject.transform.localPosition = new Vector3(-180, -200, 0);
 
 
             }
@@ -158,6 +160,7 @@ public class ESCController : MonoBehaviour
                 //Static.mainESC = Static.ESCMenuMainState.cont;
                 ExitObject.GetComponent<TMP_Text>().text = "Exit Game";
                 ContinueObject.GetComponent<TMP_Text>().text = "Continue Game".Bold();
+                FlameObject.transform.localPosition = new Vector3(-180, 20, 0);
             }
 
             if (Static.debugMode)

@@ -14,7 +14,7 @@ public class MainController : MonoBehaviour
     GameObject ContinueObject;
     GameObject ExitObject;
     GameObject EscMenuWrapper;
-
+    GameObject FlameObject;
 
 
     public GameObject startText;
@@ -40,10 +40,11 @@ public class MainController : MonoBehaviour
         ContinueObject = settingsChild.transform.GetChild(0).gameObject;
         ExitObject = settingsChild.transform.GetChild(1).gameObject;
         mainmenuObject = settingsChild.transform.GetChild(2).gameObject;
-
+        FlameObject = settingsChild.transform.GetChild(3).gameObject;
 
         //Ini
         ContinueObject.GetComponent<TMP_Text>().text = "Continue Game".Bold();
+        FlameObject.transform.localPosition = new Vector3(-180, 20, 0);
         EscMenuWrapper.SetActive(true);
 
     }
@@ -129,8 +130,9 @@ public class MainController : MonoBehaviour
                 ExitObject.GetComponent<TMP_Text>().text = "Exit Game".Bold();
                 ContinueObject.GetComponent<TMP_Text>().text = "Continue Game";
                 mainmenuObject.GetComponent<TMP_Text>().text = "Exit to Main Menu";
-                
-               
+                FlameObject.transform.localPosition = new Vector3(-180, -200, 0);
+
+
             }
             else if(Static.mainESC == Static.ESCMenuMainState.cont)
             {
@@ -138,12 +140,14 @@ public class MainController : MonoBehaviour
                 ExitObject.GetComponent<TMP_Text>().text = "Exit Game";
                 ContinueObject.GetComponent<TMP_Text>().text = "Continue Game".Bold();
                 mainmenuObject.GetComponent<TMP_Text>().text = "Exit to Main Menu";
+                FlameObject.transform.localPosition = new Vector3(-180, 20, 0);
             }
             else
             {
                 ExitObject.GetComponent<TMP_Text>().text = "Exit Game";
                 ContinueObject.GetComponent<TMP_Text>().text = "Continue Game";
                 mainmenuObject.GetComponent<TMP_Text>().text = "Exit to Main Menu".Bold();
+                FlameObject.transform.localPosition = new Vector3(-180, -90, 0);
             }
 
 
