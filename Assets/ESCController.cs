@@ -12,6 +12,7 @@ public class ESCController : MonoBehaviour
     GameObject dimChild;
     GameObject ContinueObject;
     GameObject ExitObject;
+    GameObject FlameObject;
     GameObject EscMenuWrapper;
     public string startScene;
     public GameObject statichelper;
@@ -34,7 +35,7 @@ public class ESCController : MonoBehaviour
         //-3 level
         ContinueObject = settingsChild.transform.GetChild(0).gameObject;
         ExitObject = settingsChild.transform.GetChild(1).gameObject;
-
+        FlameObject = settingsChild.transform.GetChild(2).gameObject;
 
         //Ini
         ContinueObject.GetComponent<TMP_Text>().text = "Continue Game".Bold();
