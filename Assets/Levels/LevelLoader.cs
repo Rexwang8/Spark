@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using TMPro;
 
 public class LevelLoader : MonoBehaviour
 {
@@ -10,7 +11,7 @@ public class LevelLoader : MonoBehaviour
     public GameObject CMBounding;
     public GameObject CM;
     public GameObject player;
-    public GameObject respawner;
+    public GameObject expositionTMP;
 
     public float shrink = 1f;
 
@@ -42,6 +43,16 @@ public class LevelLoader : MonoBehaviour
         GameObject terrain = Instantiate(loadedLevelTemplate.levelTerrain, transform);
        // player.GetComponent<Player>().currentLevelData = loadedLevelTemplate;
 
+        if(loadedLevelTemplate.UsingUIText)
+        {
+            expositionTMP.GetComponent<TMP_Text>().text = loadedLevelTemplate.UIText;
+            expositionTMP.transform.localPosition = loadedLevelTemplate.UITextCoords;
+        }
+        else
+        {
+            expositionTMP.GetComponent<TMP_Text>().text = "";
+            expositionTMP.transform.localPosition = new Vector2(-1000, -1000);
+        }
     }
     void Start()
     {

@@ -19,4 +19,7 @@ MonoBehaviour:
   BoundingXY2: {x: 9, y: -9}
   startingPosition: {x: -7, y: -2}
   lockCamera: 1
-  levelTerrain: {fileID: 1269845453995841978, guid: ef739202b14f106418613b4fc38c21f4, type: 3}
+  levelTerrain: {fileID: 1269845453995841978, guid: 4d0a769e8b40eb849b0f7e34a33ab25a, type: 3}
+  UsingUIText: 1
+  UIText: Press SPACE to SPARK, exploring your way forward.
+  UITextCoords: {x: -450, y: -300}

@@ -30,8 +30,10 @@ public class Player : MonoBehaviour
     public float slideBoostStrength = 6f;
     private float _basegravity;
     private bool isWallSliding = false;
-    enum Direction { none, left, right };
+    enum Direction { none, left, right, top, bottom };
     private Direction slideDir;
+    private Direction contactdir;
+
 
     [Title("Debug")]
     [SceneObjectsOnly]
@@ -43,6 +45,8 @@ public class Player : MonoBehaviour
     private Vector2 lastsparkloc;
     public GameObject statichelper;
 
+    float distToGround;
+    public LayerMask lm;
     private void Awake()
     {
         rb = GetComponent<Rigidbody2D>();
@@ -52,18 +56,18 @@ public class Player : MonoBehaviour
         EventManager.StartListening("SPARK", Spark);
     }
 
+    private void Start()
+    {
+        distToGround = GetComponent<Collider2D>().bounds.extents.y;
+    }
+
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        //ground => grounded, reset double jump
-        if (collision.gameObject.layer == 3 && collision.gameObject.tag == "TerrainGround")
-        {
-            isGrounded = true;
-            usedDoubleJump = false;
-        }
+        contactdir = calcCollisionAngle(transform, collision.contacts[0].point, isGrounded);
         //Side wall => start wall sliding, set direction of slide
-        else if (collision.gameObject.layer == 3 && collision.gameObject.CompareTag("TerrainWall"))
+        if (collision.gameObject.layer == 3 && (contactdir == Direction.right || contactdir == Direction.left))
         {
-            if(Static.debugMode)
+            if (Static.debugMode)
             {
                 //Draw a blue ray on slide hit
                 Debug.DrawRay(collision.GetContact(0).point, collision.GetContact(0).normal, Color.blue, 1, false);
@@ -73,41 +77,52 @@ public class Player : MonoBehaviour
             usedDoubleJump = false;
 
             //Compare collision and own position to find direction of collision
-            slideDir =  ((collision.transform.position - transform.position).normalized).x >= 0 ? Direction.right : Direction.left;
+            slideDir = ((collision.transform.position - transform.position).normalized).x >= 0 ? Direction.right : Direction.left;
+
 
             //Set gravity to be lower when sliding
             rb.gravityScale = _basegravity * gravitySlideScale;
         }
+        //ground => grounded, reset double jump
+        else if (collision.gameObject.layer == 3 && contactdir == Direction.top)
+        {
+          //  isGrounded = true;
+            usedDoubleJump = false;
+        }
+        
     }
 
-    private string calcJumpDebug(bool isGrounded, bool usedDoubleJump, Direction slidedir)
+    private string calcJumpDebug(bool isGrounded, bool usedDoubleJump, Direction slidedir, Direction contactDir)
     {
         if(isGrounded)
         {
-            return $"Jumps: Grounded(2)\n Sliding: {slidedir}\n Level(current/max): {Static.currentSelectedlevel} {Static.maxBeatenLevel}";
+            return $"Jumps: Grounded(2)\n Sliding: {slidedir} Contact: {contactDir}\n Level(current/max): {Static.currentSelectedlevel} {Static.maxBeatenLevel} ";
         }
         else if (!usedDoubleJump)
         {
-            return $"Jumps: Air(1)\n Sliding: {slidedir}\n Level(current/max): {Static.currentSelectedlevel} {Static.maxBeatenLevel}";
+            return $"Jumps: Air(1)\n Sliding: {slidedir} Contact: {contactDir}\n Level(current/max): {Static.currentSelectedlevel} {Static.maxBeatenLevel}";
         }
-        return $"Jumps: Air(0)\n Sliding: {slidedir}\n Level(current/max): {Static.currentSelectedlevel} {Static.maxBeatenLevel}";
+        return $"Jumps: Air(0)\n Sliding: {slidedir} Contact: {contactDir}\n Level(current/max): {Static.currentSelectedlevel} {Static.maxBeatenLevel}";
     }
 
     private void OnCollisionExit2D(Collision2D collision)
     {
-        //Leave ground
-        if (collision.gameObject.layer == 3 && collision.gameObject.CompareTag("TerrainGround"))
-        {
-            isGrounded = false;
-            
-        }
         //Leave wall
-        else if (collision.gameObject.layer == 3 && collision.gameObject.CompareTag("TerrainWall"))
+        if (collision.gameObject.layer == 3 && (contactdir == Direction.right || contactdir == Direction.left))
         {
             isWallSliding = false;
             slideDir = Direction.none;
             rb.gravityScale = _basegravity;
         }
+        //Leave ground
+        else if (collision.gameObject.layer == 3 && contactdir == Direction.top)
+        {
+           // isGrounded = false;
+            contactdir = Direction.none;
+            
+        }
+        
+
     }
 
 
@@ -120,13 +135,19 @@ public class Player : MonoBehaviour
 
         if(Static.debugMode)
         {
-            debugjumps.text = calcJumpDebug(isGrounded, usedDoubleJump, slideDir);
+            debugjumps.text = calcJumpDebug(isGrounded, usedDoubleJump, slideDir, contactdir);
         }
         
     }
     void FixedUpdate()
     {
         MoveThePlayer();
+        isGrounded = CheckIfGrounded();
+        if(Static.debugMode)
+        {
+            Debug.DrawRay(transform.position, -Vector2.up * 0.3f, Color.blue, 1, false);
+        }
+        
     }
 
     void CalculateMovementInput()
@@ -186,14 +207,12 @@ public class Player : MonoBehaviour
 
     private void Jump()
     {
-        if (isGrounded)
+        Debug.Log(contactdir);
+        Debug.Log(isWallSliding);
+        if (isWallSliding)
         {
-            rb.velocity = new Vector2(rb.velocity.x, jumpspeed * 1.5f);
-            drawDebugHere();
-        }
-        else if (isWallSliding)
-        {
-            if(slideDir == Direction.left)
+            Debug.Log("push");
+            if(contactdir == Direction.left)
             {
                 rb.velocity = new Vector2(rb.velocity.x + slideBoostStrength, rb.velocity.y + (jumpspeed * 1.2f));
             }
@@ -203,6 +222,11 @@ public class Player : MonoBehaviour
             }
             
             usedDoubleJump = false;
+            drawDebugHere();
+        }
+        else if(isGrounded)
+        {
+            rb.velocity = new Vector2(rb.velocity.x, jumpspeed * 1.5f);
             drawDebugHere();
         }
         else if (!usedDoubleJump)
@@ -232,7 +256,7 @@ public class Player : MonoBehaviour
             lastsparkloc.y += 4;
         }
         transform.position = Static.levelTemplate.startingPosition;
-        Debug.Log(Static.levelTemplate.startingPosition);
+
         EventManager.EmitEvent("RESPAWN");
         Spark();
     }
@@ -244,10 +268,78 @@ public class Player : MonoBehaviour
         Static.sparkid += 1;
         
         statichelper.GetComponent<StaticHelper>().checkSparks();
-        Debug.Log("SPARK");   
+
     }
 
 
+    private Direction calcCollisionAngle(Transform col1, Vector2 col2, bool isGrounded)
+    {
+        Vector2 vector = col2 - (Vector2)col1.position;
+        //vector = vector.normalized;
+        float Angle = Mathf.Atan2(vector.y, vector.x);
+        float collisionAngle = 360 - (Angle * Mathf.Rad2Deg) - 180;
+
+        Direction cang;
+        cang = calcCastedDir(collisionAngle, isGrounded);
+
+        if(Static.debugMode)
+        {
+            Debug.Log(cang + "  " + collisionAngle + "  transform" + (Vector2)col1.position + "   " + col2 + "   " + vector + "   " + isGrounded);
+        }
+        
+        return cang;
+    }
+
+    private Direction calcCastedDir(float collisionAngle, bool isGrounded)
+    {
+        if(!isGrounded)
+        {
+            if ((collisionAngle > 315 && collisionAngle <= 360) || (collisionAngle > 0 && collisionAngle <= 45))
+            {
+                return Direction.left;
+            }
+            else if (collisionAngle > 45 && collisionAngle <= 135)
+            {
+                return Direction.bottom;
+            }
+            else if (collisionAngle > 135 && collisionAngle <= 225)
+            {
+                return Direction.right;
+            }
+            else if (collisionAngle > 225 && collisionAngle <= 315)
+            {
+                return Direction.top;
+            }
+        }
+        else
+        {
+            if (collisionAngle > 180 && collisionAngle <= 360)
+            {
+                return Direction.top;
+            }
+            else if (collisionAngle > 0 && collisionAngle <= 180)
+            {
+                return Direction.bottom;
+            }
+
+        }
+       
+
+        return Direction.none;
+    }
+
+    private bool CheckIfGrounded()
+    {
+        RaycastHit2D hit = Physics2D.Raycast(transform.position, -Vector2.up, distToGround + 0.1f, lm);
+        if(hit.collider != null)
+        {
+ 
+            return true;
+
+        }
+        return false;
+        
+    }
 
 
 }

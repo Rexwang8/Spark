@@ -10,16 +10,16 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 57b45f552f8c47648817fbb4453e0353, type: 3}
-  m_Name: L1
+  m_Name: L4
   m_EditorClassIdentifier: 
-  level: 1
+  level: 4
   image: {fileID: 21300000, guid: 25534d7e0c9de5646aee54d576a28388, type: 3}
   scenename: GameScene
-  BoundingXY1: {x: -9, y: 5}
-  BoundingXY2: {x: 9, y: -5}
-  startingPosition: {x: -7, y: 2}
+  BoundingXY1: {x: 0, y: 0}
+  BoundingXY2: {x: 0, y: 0}
+  startingPosition: {x: 0, y: 0}
   lockCamera: 1
-  levelTerrain: {fileID: 1269845453995841978, guid: b001c909c5e82664ea2ef5d01fee5f81, type: 3}
-  UsingUIText: 1
-  UIText: Use WASD to move.
-  UITextCoords: {x: -450, y: -300}
+  levelTerrain: {fileID: 0}
+  UsingUIText: 0
+  UIText: 
+  UITextCoords: {x: 0, y: 0}

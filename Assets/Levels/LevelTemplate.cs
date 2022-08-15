@@ -12,7 +12,11 @@ public class LevelTemplate : ScriptableObject
     [PreviewField(60, ObjectFieldAlignment.Center)]
     public Sprite image;
     public string scenename;
+    [ShowInInspector]
+    [TextArea]
+    private string desc;
 
+    [TitleGroup("Level Info")]
     public Vector2 BoundingXY1;
     public Vector2 BoundingXY2;
     public Vector2 startingPosition;

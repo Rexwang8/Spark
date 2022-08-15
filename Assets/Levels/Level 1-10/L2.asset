@@ -20,3 +20,6 @@ MonoBehaviour:
   startingPosition: {x: -7, y: 2}
   lockCamera: 1
   levelTerrain: {fileID: 1269845453995841978, guid: 4b6a7b8bd5b07e443a16de37ab15fb07, type: 3}
+  UsingUIText: 1
+  UIText: Avoid pitfalls in your way.
+  UITextCoords: {x: -450, y: -300}
