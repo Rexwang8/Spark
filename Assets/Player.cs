@@ -61,7 +61,7 @@ public class Player : MonoBehaviour
         distToGround = GetComponent<Collider2D>().bounds.extents.y;
     }
 
-    private void OnCollisionEnter2D(Collision2D collision)
+    private void OnCollisionStay2D(Collision2D collision)
     {
         contactdir = calcCollisionAngle(transform, collision.contacts[0].point, isGrounded);
         //Side wall => start wall sliding, set direction of slide
@@ -132,6 +132,11 @@ public class Player : MonoBehaviour
         CalculateMovementInput();
         
         rb.velocity = new Vector2(Mathf.Clamp(rb.velocity.x, -velocityLimit, velocityLimit), Mathf.Clamp(rb.velocity.y, -velocityLimit, velocityLimit));
+
+        if(isGrounded)
+        {
+            isWallSliding = false;
+        }
 
         if(Static.debugMode)
         {
@@ -207,8 +212,8 @@ public class Player : MonoBehaviour
 
     private void Jump()
     {
-        Debug.Log(contactdir);
-        Debug.Log(isWallSliding);
+       // Debug.Log(contactdir);
+       // Debug.Log(isWallSliding);
         if (isWallSliding)
         {
             Debug.Log("push");
