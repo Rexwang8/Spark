@@ -172,7 +172,7 @@ public class NavigateLevelSelect : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        Debug.Log("Current: " + Static.currentSelectedlevel + "  Max" + Static.maxBeatenLevel);
+        //Debug.Log("Current: " + Static.currentSelectedlevel + "  Max" + Static.maxBeatenLevel);
         CalculateMovementInput();
         if (currentInput && !gotInput)
         {
