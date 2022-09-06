@@ -15,11 +15,12 @@ MonoBehaviour:
   level: 4
   image: {fileID: 21300000, guid: 25534d7e0c9de5646aee54d576a28388, type: 3}
   scenename: GameScene
-  BoundingXY1: {x: 0, y: 0}
-  BoundingXY2: {x: 0, y: 0}
-  startingPosition: {x: 0, y: 0}
+  BoundingXY1: {x: -9, y: 5}
+  BoundingXY2: {x: 12, y: -5}
+  startingPosition: {x: -7, y: -2}
   lockCamera: 1
-  levelTerrain: {fileID: 0}
-  UsingUIText: 0
-  UIText: 
-  UITextCoords: {x: 0, y: 0}
+  levelTerrain: {fileID: 1269845453995841978, guid: c4ff41b34d24a2349bb222f938698488, type: 3}
+  UsingUIText: 1
+  UIText: Jump on enemies to defeat them. SPARKing their spawnpoint will prevent
+    them from respawning while the SPARK exists.
+  UITextCoords: {x: -450, y: -300}

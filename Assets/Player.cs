@@ -60,7 +60,7 @@ public class Player : MonoBehaviour
     {
         distToGround = GetComponent<Collider2D>().bounds.extents.y;
     }
-
+    
     private void OnCollisionStay2D(Collision2D collision)
     {
         contactdir = calcCollisionAngle(transform, collision.contacts[0].point, isGrounded);
@@ -91,7 +91,7 @@ public class Player : MonoBehaviour
         }
         
     }
-
+    
     private string calcJumpDebug(bool isGrounded, bool usedDoubleJump, Direction slidedir, Direction contactDir)
     {
         if(isGrounded)
