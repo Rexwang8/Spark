@@ -53,7 +53,7 @@ SpriteRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: a97c105638bdf8b4a8650670310a4cd3, type: 2}
+  - {fileID: 2100000, guid: 9dfc825aed78fcd4ba02077103263b40, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -98,8 +98,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   enemyPrefab: {fileID: 3577416868698986229, guid: d7ad9ee6ec99d684badcc8e0f0e7550b, type: 3}
-  colactive: {r: 0.8207547, g: 0.25319907, b: 0.19667137, a: 0.78431374}
-  colrestrained: {r: 0.14676036, g: 0.6840135, b: 0.8018868, a: 0.78431374}
+  colactive: {r: 0.6415094, g: 0.2929156, b: 0.25660375, a: 0.78431374}
+  colrestrained: {r: 0.10380917, g: 0.2972609, b: 0.33962262, a: 0.78431374}
   enemySpawned: {fileID: 0}
 --- !u!1 &1269845452529713069
 GameObject:

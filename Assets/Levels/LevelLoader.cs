@@ -25,7 +25,7 @@ public class LevelLoader : MonoBehaviour
         allpts[2] = new Vector2(loadedLevelTemplate.BoundingXY2.x - shrink, loadedLevelTemplate.BoundingXY2.y + shrink);
         allpts[3] = new Vector2(loadedLevelTemplate.BoundingXY2.x - shrink, loadedLevelTemplate.BoundingXY1.y - shrink);
         player.transform.position = loadedLevelTemplate.startingPosition;
-        Debug.Log(loadedLevelTemplate.startingPosition);
+        //Debug.Log(loadedLevelTemplate.startingPosition);
 
         CMBounding.GetComponent<PolygonCollider2D>().pathCount = 1;
         CMBounding.GetComponent<PolygonCollider2D>().enabled = false;
