@@ -9,6 +9,9 @@ public class ExitDoor : MonoBehaviour
 
     private GameObject player;
     public string MainMenuLevel;
+
+    private float time = 3;
+    private bool isExiting = false;
     // Start is called before the first frame update
     void Awake()
     {
@@ -20,17 +23,34 @@ public class ExitDoor : MonoBehaviour
     {
         if(collision.gameObject.CompareTag("Player"))
         {
+            if(isExiting)
+            {
+                return;
+            }
             EventManager.EmitEvent("FINISHLEVEL");
-            if(Static.maxBeatenLevel < Static.levelTemplate.level)
+            EventManager.EmitEvent("AUDIOEND");
+
+            if (Static.maxBeatenLevel < Static.levelTemplate.level)
             {
                 Static.maxBeatenLevel = Static.levelTemplate.level;
             }
-            
-            Debug.Log($"Start this level: {Static.currentSelectedlevel}");
-            SceneManager.LoadScene(MainMenuLevel);
-            Debug.Log("EMIT FINISHLEVEL" + Static.levelTemplate.level);
+
+            //Debug.Log($"Start this level: {Static.currentSelectedlevel}");
+            StartCoroutine(WaitDoor());
+            isExiting = true;
+         //   SceneManager.LoadScene(MainMenuLevel);
         }
     }
 
+    IEnumerator WaitDoor()
+    {
+        //Print the time of when the function is first called.
+        //Debug.Log("Started Coroutine at timestamp : " + Time.time);
 
+        //yield on a new YieldInstruction that waits for 5 seconds.
+        yield return new WaitForSeconds(time);
+        SceneManager.LoadScene(MainMenuLevel);
+        //After we have waited 5 seconds print the time again.
+        //Debug.Log("Finished Coroutine at timestamp : " + Time.time);
+    }
 }

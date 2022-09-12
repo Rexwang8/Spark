@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
+using TigerForge;
 
 public class LevelLoader : MonoBehaviour
 {
@@ -40,6 +41,7 @@ public class LevelLoader : MonoBehaviour
         {
             CM.SetActive(true);
         }
+        
         GameObject terrain = Instantiate(loadedLevelTemplate.levelTerrain, transform);
        // player.GetComponent<Player>().currentLevelData = loadedLevelTemplate;
 
@@ -53,10 +55,12 @@ public class LevelLoader : MonoBehaviour
             expositionTMP.GetComponent<TMP_Text>().text = "";
             expositionTMP.transform.localPosition = new Vector2(-1000, -1000);
         }
+
+        
     }
     void Start()
     {
-        
+        EventManager.EmitEvent("AUDIOSTART");
     }
 
     // Update is called once per frame

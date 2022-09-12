@@ -23,4 +23,4 @@ MonoBehaviour:
   UsingUIText: 1
   UIText: Jump on enemies to defeat them. SPARKing their spawnpoint will prevent
     them from respawning while the SPARK exists.
-  UITextCoords: {x: -450, y: -300}
+  UITextCoords: {x: -450, y: 300}

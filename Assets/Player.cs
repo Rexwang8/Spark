@@ -197,6 +197,7 @@ public class Player : MonoBehaviour
         if (context.started && !Static.gamePaused)
         {
             onKilled();
+            
         }
 
     }
@@ -212,11 +213,8 @@ public class Player : MonoBehaviour
 
     private void Jump()
     {
-       // Debug.Log(contactdir);
-       // Debug.Log(isWallSliding);
         if (isWallSliding)
         {
-            Debug.Log("push");
             if(contactdir == Direction.left)
             {
                 rb.velocity = new Vector2(rb.velocity.x + slideBoostStrength, rb.velocity.y + (jumpspeed * 1.2f));

@@ -98,9 +98,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   enemyPrefab: {fileID: 3577416868698986229, guid: d7ad9ee6ec99d684badcc8e0f0e7550b, type: 3}
-  colactive: {r: 0.6415094, g: 0.2929156, b: 0.25660375, a: 0.78431374}
-  colrestrained: {r: 0.10380917, g: 0.2972609, b: 0.33962262, a: 0.78431374}
+  colactive: {r: 0.745283, g: 0.27375335, b: 0.22077249, a: 0.8745098}
+  colrestrained: {r: 0.08951583, g: 0.37958172, b: 0.4433962, a: 0.8862745}
   enemySpawned: {fileID: 0}
+  speed: 7.4
+  TurnTIme: 2
 --- !u!1 &1269845452529713069
 GameObject:
   m_ObjectHideFlags: 0
