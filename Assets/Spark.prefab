@@ -150,7 +150,7 @@ MonoBehaviour:
   m_BlendStyleIndex: 1
   m_FalloffIntensity: 0.7
   m_Color: {r: 1, g: 0.7904365, b: 0.3339622, a: 1}
-  m_Intensity: 1.6
+  m_Intensity: 1.5
   m_LightVolumeIntensity: 1
   m_LightVolumeIntensityEnabled: 0
   m_ApplyToSortingLayers: 00000000
@@ -225,7 +225,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   usingIntensityFlicker: 1
-  intensityRange: {x: 0.6, y: 0.8}
+  intensityRange: {x: 0.7, y: 1.1}
   intensityTimeRange: {x: 1.2, y: 1.6}
   flickerSteps: 15
   usingPositionFlicker: 1

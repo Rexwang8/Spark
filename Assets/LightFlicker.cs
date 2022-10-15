@@ -4,6 +4,7 @@ using UnityEngine;
 using Sirenix.OdinInspector;
 using UnityEngine.Rendering.Universal;
 using NaughtyAttributes;
+using TigerForge;
 
 public class LightFlicker : MonoBehaviour
 {
@@ -41,17 +42,22 @@ public class LightFlicker : MonoBehaviour
     void Awake()
     {
         Light = GetComponent<Light2D>();
-        ctimeIntensity = 0;
+        ctimeIntensity = -2;
+        ctimePosition = -2;
         baseIntensity = Light.intensity;
-
+        Light.intensity = 0.1f * baseIntensity;
+        StartupLight();
         intensityTime = Random.Range((intensityTimeRange.x), (intensityTimeRange.y));
         intensityMagnitude = Random.Range(baseIntensity * intensityRange.x, baseIntensity * intensityRange.y);
 
         positionTime = Random.Range((PositionTimeRange.x), (PositionTimeRange.y));
         positionMagnitude = new Vector2(Random.Range(-PositionRange.x, PositionRange.x), Random.Range(0, PositionRange.y));
-
+        EventManager.StartListening("BURSTLIGHT", burstLight);
     }
-
+    void StartupLight()
+    {
+        StartCoroutine(StartupIntensity());
+    }
     // Update is called once per frame
     void Update()
     {
@@ -85,6 +91,38 @@ public class LightFlicker : MonoBehaviour
             positionMagnitude = new Vector2(Random.Range(-PositionRange.x, PositionRange.x), Random.Range(0, PositionRange.y));
 
         }
+    }
+
+    void burstLight()
+    {
+        //Suspend timers
+        ctimePosition = -999;
+        ctimeIntensity = -999;
+
+        StartCoroutine(BurstIntensity());
+    }
+
+    private IEnumerator BurstIntensity()
+    {
+        float stepchange = (2 * baseIntensity - Light.intensity) / (flickerSteps * 2);
+        for (int i = flickerSteps; i >= 0; i--)
+        {
+            Light.intensity += stepchange;
+            Light.pointLightOuterRadius += 0.08f;
+            yield return new WaitForSeconds(0.07f);
+        }
+
+    }
+
+    private IEnumerator StartupIntensity()
+    {
+        float stepchange = (baseIntensity - Light.intensity) / (flickerSteps * 2);
+        for (int i = flickerSteps; i >= 0; i--)
+        {
+            Light.intensity += stepchange;
+            yield return new WaitForSeconds(0.07f);
+        }
+
     }
 
     private IEnumerator FlickerIntensity()

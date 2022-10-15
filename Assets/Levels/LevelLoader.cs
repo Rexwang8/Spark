@@ -61,6 +61,7 @@ public class LevelLoader : MonoBehaviour
     void Start()
     {
         EventManager.EmitEvent("AUDIOSTART");
+        Static.disablePlayerMovement = false;
     }
 
     // Update is called once per frame

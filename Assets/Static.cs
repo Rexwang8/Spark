@@ -24,4 +24,16 @@ public static class Static
     public static int sparkid = 0;
     public static GameObject[] sparkscripts;
     public static int MaxSparks = 30;
+
+    public static bool disablePlayerMovement = false;
+
+    //EVENTS
+    /* FINISHLEVEL - emit when level is finished right when door is touched
+     * BURSTLIGHT - emit when you need lights to burst
+     * AUDIOSTART - emit to start music
+     * AUDIOEND - emit to end music
+     * 
+     * 
+     * 
+     */
 }

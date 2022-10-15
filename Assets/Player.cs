@@ -60,6 +60,12 @@ public class Player : MonoBehaviour
     {
         distToGround = GetComponent<Collider2D>().bounds.extents.y;
     }
+
+    private void setYVelocity(float value)
+    {
+        rb.velocity = new Vector2(rb.velocity.x, value);
+        return;
+    }
     
     private void OnCollisionStay2D(Collision2D collision)
     {
@@ -170,10 +176,15 @@ public class Player : MonoBehaviour
 
     void MoveThePlayer()
     {
+        if (Static.disablePlayerMovement)
+        {
+            return;
+        }
         if (currentInput == true)
         {
-            Vector3 movement = inputDirection.normalized * movespeed * Time.deltaTime * 100;
-            rb.AddForce(movement);
+            //Vector3 movement = inputDirection.normalized * movespeed * Time.deltaTime * 100;
+            //rb.AddForce(movement);
+            accelerateTowardsDirection(inputDirection.normalized);
         }
 
     }
@@ -213,6 +224,10 @@ public class Player : MonoBehaviour
 
     private void Jump()
     {
+        if(Static.disablePlayerMovement)
+        {
+            return;
+        }
         if (isWallSliding)
         {
             if(contactdir == Direction.left)
@@ -229,12 +244,12 @@ public class Player : MonoBehaviour
         }
         else if(isGrounded)
         {
-            rb.velocity = new Vector2(rb.velocity.x, jumpspeed * 1.5f);
+            setYVelocity(jumpspeed * 1.5f);
             drawDebugHere();
         }
         else if (!usedDoubleJump)
         {
-            rb.velocity = new Vector2(rb.velocity.x, rb.velocity.y + (jumpspeed * 1.8f));
+            setYVelocity(jumpspeed * 2f);
             usedDoubleJump = true;
             drawDebugHere();
         }
@@ -242,6 +257,10 @@ public class Player : MonoBehaviour
 
     }
 
+    void accelerateTowardsDirection(Vector2 direction)
+    {
+        rb.velocity = new Vector2(Mathf.Lerp(rb.velocity.x, direction.x * movespeed * 8, 0.35f * Time.deltaTime), rb.velocity.y);
+    }
     private void drawDebugHere()
     {
         if(Static.debugMode)

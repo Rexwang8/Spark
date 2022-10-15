@@ -10,7 +10,7 @@ public class ExitDoor : MonoBehaviour
     private GameObject player;
     public string MainMenuLevel;
 
-    private float time = 3;
+    private float time = 2.5f;
     private bool isExiting = false;
     // Start is called before the first frame update
     void Awake()
@@ -28,6 +28,7 @@ public class ExitDoor : MonoBehaviour
                 return;
             }
             EventManager.EmitEvent("FINISHLEVEL");
+            EventManager.EmitEvent("BURSTLIGHT");
             EventManager.EmitEvent("AUDIOEND");
 
             if (Static.maxBeatenLevel < Static.levelTemplate.level)
@@ -48,6 +49,7 @@ public class ExitDoor : MonoBehaviour
         //Debug.Log("Started Coroutine at timestamp : " + Time.time);
 
         //yield on a new YieldInstruction that waits for 5 seconds.
+        Static.disablePlayerMovement = true;
         yield return new WaitForSeconds(time);
         SceneManager.LoadScene(MainMenuLevel);
         //After we have waited 5 seconds print the time again.
