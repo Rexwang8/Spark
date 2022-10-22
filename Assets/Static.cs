@@ -16,16 +16,19 @@ public static class Static
     public enum ESCMenuMainState { cont, main, exit}
     public static ESCMenuMainState mainESC = ESCMenuMainState.cont;
 
-    public static int maxBeatenLevel = 4;
+    public static int maxBeatenLevel = 5;
     public static int lastLevelAccessed = 0;
     public static int currentSelectedlevel;
-    public static LevelTemplate levelTemplate;
+
+    //clevel level template
+    public static LevelTemplate CurrentLevelLevelTemplate;
     public static bool gamePaused = false;
     public static int sparkid = 0;
     public static GameObject[] sparkscripts;
     public static int MaxSparks = 30;
 
     public static bool disablePlayerMovement = false;
+    public static int numKeysObtained = 0;
 
     //EVENTS
     /* FINISHLEVEL - emit when level is finished right when door is touched

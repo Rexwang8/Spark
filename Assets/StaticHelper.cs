@@ -10,9 +10,9 @@ public class StaticHelper : MonoBehaviour
     public LevelTemplate startLevelTemplate;
     private void Awake()
     {
-        if(Static.levelTemplate == null)
+        if(Static.CurrentLevelLevelTemplate == null)
         {
-            Static.levelTemplate = startLevelTemplate;
+            Static.CurrentLevelLevelTemplate = startLevelTemplate;
             Static.lastLevelAccessed = 1;
         }
         

@@ -211,12 +211,12 @@ public class MainController : MonoBehaviour
             else if (Static.currentMainState == Static.enumMainState.levelselect)
             {
                 //start selected level
-                Debug.Log($"Start this level: { Static.levelTemplate.level}");
+                Debug.Log($"Start this level: { Static.CurrentLevelLevelTemplate.level}");
 
-                Static.lastLevelAccessed = Static.levelTemplate.level;
+                Static.lastLevelAccessed = Static.CurrentLevelLevelTemplate.level;
 
 
-                SceneManager.LoadScene(Static.levelTemplate.scenename);
+                SceneManager.LoadScene(Static.CurrentLevelLevelTemplate.scenename);
             }
 
         }

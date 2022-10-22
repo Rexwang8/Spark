@@ -22,6 +22,9 @@ public class LevelTemplate : ScriptableObject
     public Vector2 startingPosition;
     public bool lockCamera;
 
+    public bool usesKeys;
+    public int numKeys;
+
     public GameObject levelTerrain;
 
     [TitleGroup("Text")]

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using TigerForge;
 using UnityEngine.SceneManagement;
+using UnityEngine.Rendering.Universal;
 
 public class ExitDoor : MonoBehaviour
 {
@@ -12,10 +13,38 @@ public class ExitDoor : MonoBehaviour
 
     private float time = 2.2f;
     private bool isExiting = false;
+
+    private Color unlockcol = new Color(0.95f, 0.95f, 0.75f);
+    private Color lockcol = new Color(0.8f, 0.3f, 0.3f);
     // Start is called before the first frame update
     void Awake()
     {
         player = GameObject.FindGameObjectWithTag("Player");
+
+        
+        if(Static.CurrentLevelLevelTemplate.usesKeys)
+        {
+            transform.GetChild(0).gameObject.GetComponent<Light2D>().color = lockcol;
+        }
+        else
+        {
+            transform.GetChild(0).gameObject.GetComponent<Light2D>().color = unlockcol;
+        }
+        
+    }
+
+    private void Update()
+    {
+        
+        if (Static.CurrentLevelLevelTemplate.usesKeys && Static.CurrentLevelLevelTemplate.numKeys != Static.numKeysObtained)
+        {
+            transform.GetChild(0).gameObject.GetComponent<Light2D>().color = lockcol;
+        }
+        else
+        {
+            transform.GetChild(0).gameObject.GetComponent<Light2D>().color = unlockcol;
+        }
+        
     }
 
 
@@ -27,13 +56,19 @@ public class ExitDoor : MonoBehaviour
             {
                 return;
             }
+
+            //check if keys
+            if(Static.CurrentLevelLevelTemplate.usesKeys && Static.CurrentLevelLevelTemplate.numKeys != Static.numKeysObtained) 
+            {
+                return;
+            }
             EventManager.EmitEvent("FINISHLEVEL");
             EventManager.EmitEvent("BURSTLIGHT");
             EventManager.EmitEvent("AUDIOEND");
 
-            if (Static.maxBeatenLevel < Static.levelTemplate.level)
+            if (Static.maxBeatenLevel < Static.CurrentLevelLevelTemplate.level)
             {
-                Static.maxBeatenLevel = Static.levelTemplate.level;
+                Static.maxBeatenLevel = Static.CurrentLevelLevelTemplate.level;
             }
 
             //Debug.Log($"Start this level: {Static.currentSelectedlevel}");

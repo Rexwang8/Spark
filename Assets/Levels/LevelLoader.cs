@@ -18,7 +18,7 @@ public class LevelLoader : MonoBehaviour
 
     private void Awake()
     {
-        loadedLevelTemplate = Static.levelTemplate;
+        loadedLevelTemplate = Static.CurrentLevelLevelTemplate;
         Vector2[] allpts;
         allpts = new Vector2[4];
         allpts[0] = new Vector2(loadedLevelTemplate.BoundingXY1.x + shrink, loadedLevelTemplate.BoundingXY1.y - shrink);
@@ -55,6 +55,8 @@ public class LevelLoader : MonoBehaviour
             expositionTMP.GetComponent<TMP_Text>().text = "";
             expositionTMP.transform.localPosition = new Vector2(-1000, -1000);
         }
+
+        Static.numKeysObtained = 0;
 
         
     }

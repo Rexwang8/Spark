@@ -80,7 +80,7 @@ public class NavigateLevelSelect : MonoBehaviour
 
     private void calcTemplateFromIdx()
     {
-        Static.levelTemplate = allLevels[Static.currentSelectedlevel].GetComponent<LevelUi>().level;
+        Static.CurrentLevelLevelTemplate = allLevels[Static.currentSelectedlevel].GetComponent<LevelUi>().level;
     }
 
 
