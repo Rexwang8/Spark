@@ -285,6 +285,11 @@ public class Player : MonoBehaviour
 
     private void Spark()
     {
+        if(Static.disablePlayerMovement)
+        {
+            return;
+        }
+
         GameObject sp = Instantiate(SparkObj, new Vector2(lastsparkloc.x, lastsparkloc.y), transform.rotation);
         sp.GetComponent<SparkCT>().sparkid = Static.sparkid;
         Static.sparkid += 1;

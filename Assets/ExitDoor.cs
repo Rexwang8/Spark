@@ -10,7 +10,7 @@ public class ExitDoor : MonoBehaviour
     private GameObject player;
     public string MainMenuLevel;
 
-    private float time = 2.5f;
+    private float time = 2.2f;
     private bool isExiting = false;
     // Start is called before the first frame update
     void Awake()

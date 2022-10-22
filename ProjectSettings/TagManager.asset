@@ -8,6 +8,7 @@ TagManager:
   - TerrainGround
   - TerrainWall
   - Sparks
+  - Enemy
   layers:
   - Default
   - TransparentFX
